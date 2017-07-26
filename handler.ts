@@ -1,7 +1,3 @@
-import { commands } from "./src/commands";
+import { App } from './src/system/app';
 
-export default function () {
-  const keys = Object.keys(commands);
-
-
-}
+export default App.initialize;

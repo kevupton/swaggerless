@@ -7,11 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "lodash": "^4.17.4",
     "typescript": "^2.4.1"
   },
   "devDependencies": {
+    "@types/aws-lambda": "0.0.15",
+    "@types/lodash": "^4.14.71",
     "json-loader": "^0.5.4",
-    "lodash": "^4.17.4",
     "mocha": "^3.4.2",
     "serverless-webpack": "^1.0.0-rc.4",
     "ts-loader": "^2.2.1",
