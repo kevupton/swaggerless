@@ -5,7 +5,7 @@ A command driven approach to serverless.  *~ Bootstrap framework. ~*
 
 ----------
 
-###Features
+### Features
  1. Typescript
  2. Eslint
  3. Serverless
