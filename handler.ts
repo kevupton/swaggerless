@@ -1,5 +1,7 @@
-import {example} from "./functions/example";
+import { commands } from "./src/commands";
 
-export {
-  example
+export default function () {
+  const keys = Object.keys(commands);
+
+
 }
