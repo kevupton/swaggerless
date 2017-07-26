@@ -4,6 +4,8 @@ import { ExceptionHandler } from './exception-handler';
 import { isString, isObject, isFunction, isUndefined } from 'lodash';
 import { Response } from './response';
 import { assert } from './util/assert';
+import { complete } from './util/complete';
+import { die } from './util/die';
 
 interface ICommandBody {
   command : string;
@@ -60,6 +62,14 @@ export class Application {
 
   get response () {
     return this._response;
+  }
+
+  complete () {
+    complete();
+  }
+
+  die (errorMessage : string, code = 400) {
+    die(errorMessage, code);
   }
 
   private _execute () {
