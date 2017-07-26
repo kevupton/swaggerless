@@ -1,11 +1,9 @@
 import { APIGatewayEvent, Context, Callback } from 'aws-lambda';
-import { commands } from '../commands';
-import { AutoBind } from '../decorators/auto-bind';
+import { commands } from '../src/commands';
 import { ExceptionHandler } from './exception-handler';
 import { isString, isObject, isFunction, isUndefined } from 'lodash';
 import { Response } from './response';
-import { Exception } from '../exceptions/exception';
-import { assert } from '../util/assert';
+import { assert } from './util/assert';
 
 interface ICommandBody {
   command : string;
@@ -17,7 +15,6 @@ interface ICommandBody {
 // the commands of the application
 export const APP_COMMANDS = Object.keys(commands);
 
-@AutoBind
 export class Application {
 
   private _event : APIGatewayEvent;
@@ -28,24 +25,21 @@ export class Application {
   private _command : string;
   private _args : any;
 
-  initialize (event : APIGatewayEvent, context : Context, callback : Callback) {
-    if (this.isInitialized) throw new Exception('App already initialized!');
-
+  constructor (event : APIGatewayEvent, context : Context, callback : Callback) {
     this._event = event;
     this._context = context;
     this._callback = callback;
+
+    let error = null;
 
     try {
       this._execute();
     }
     catch (e) {
-      this._handler.handle(e);
-      this._resolveCallback(e);
+      error = this._handler.handle(e);
     }
-  }
 
-  get isInitialized () {
-    return !!this._callback;
+    this._callback(error, this.response.__OUTPUT__);
   }
 
   get event () {
@@ -69,7 +63,7 @@ export class Application {
   }
 
   private _execute () {
-    const {command, args} = JSON.parse(this.event.body) as ICommandBody;
+    const {command, args} = (JSON.parse(this.event.body) || {}) as ICommandBody;
 
     this._command = command;
     this._args = args;
@@ -78,17 +72,6 @@ export class Application {
     assert(isObject(args) || isUndefined(args), 'args is supposed to be an object');
     assert(isFunction(commands[command]), 'invalid command provided');
 
-    commands[command](args);
-  }
-
-  private _resolveCallback (e : any) {
-    if (e instanceof Error) {
-      this._callback(e);
-    }
-    else {
-      this._callback(null, this.response);
-    }
+    commands[command](args, this);
   }
 }
-
-export const App = new Application();

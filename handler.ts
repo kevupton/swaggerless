@@ -1,3 +1,3 @@
-import { App } from './src/system/app';
+import { Application } from './system/app';
 
-export default App.initialize;
+export default (event, context, callback) => new Application(event, context, callback);

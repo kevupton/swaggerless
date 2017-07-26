@@ -1,5 +1,5 @@
 import { Application } from './app';
-import { Exception } from '../exceptions/exception';
+import { Exception } from './exception';
 
 export class ExceptionHandler {
 
@@ -8,8 +8,10 @@ export class ExceptionHandler {
   ) {}
 
   handle (exception : Exception) {
-    if (!(exception instanceof Exception)) return;
+    if (!(exception instanceof Exception)) return exception;
 
     this.app.response.setError(exception.errorMessage, exception.statusCode);
+
+    return null;
   }
 }

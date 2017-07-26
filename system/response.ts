@@ -13,7 +13,7 @@ export interface IResponseBody {
 
 export class Response {
   statusCode = 200;
-  headers : IHeadersObject = {};
+  headers : IHeadersObject;
 
   private _error : string;
   private _data = {};
@@ -37,6 +37,18 @@ export class Response {
     }
 
     return JSON.stringify(body);
+  }
+
+  get __OUTPUT__ () {
+    return {
+      statusCode: this.statusCode,
+      headers: this.headers,
+      body: this.body
+    };
+  }
+
+  setHeaders (headers : any) {
+    this.headers = Object.assign({}, this.headers, headers);
   }
 
   /**

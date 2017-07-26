@@ -1,15 +1,8 @@
+import { Application } from '../../../system/app';
+
 /**
  * Serverless Function
- *
- * @param event
- * @param context
- * @param callback
  */
-export function example (event, context, callback) {
-  if (event.body.isSuccess) {
-    callback(null, 'Some success message');
-  }
-  else {
-    callback('Some error message');
-  }
+export function example (args : any, instance : Application) {
+  instance.response.addData('test', true);
 }

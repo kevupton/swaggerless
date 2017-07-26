@@ -1,8 +1,8 @@
 {
-  "name": "serverless-webpack-typescript",
+  "name": "swaggerless",
   "version": "1.0.0",
   "description": "Bootstrap for serverless typescript",
-  "main": "handler.js",
+  "main": "handler.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

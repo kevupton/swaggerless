@@ -11,7 +11,7 @@
 #
 # Happy Coding!
 
-service: exchange
+service: swaggerless
 
 # You can pin your service to only deploy with a specific Serverless version
 # Check out our docs for more details
@@ -62,7 +62,7 @@ plugins:
 #    - exclude-me-dir/**
 
 functions:
-  example:
+  default:
     handler: handler.default
     environment: ${file(env.yml):${self:custom.stage}}
 
@@ -71,7 +71,6 @@ functions:
            path: /
            method: post
            cors: true
-           #integration: LAMBDA
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
