@@ -1,3 +1,34 @@
+# Swaggerless
+
+A command driven approach to serverless.  *~ Bootstrap framework. ~*
+
+
+----------
+
+###Features
+ 1. Typescript
+ 2. Eslint
+ 3. Serverless
+ 4. Webpack
+
+### Simply register your commands in the `commands.ts`
+
+```javascript
+import { example } from './commands/example';
+
+/*
+    Add your functions to the array of commands, to register them in the api.
+    Once added they will be able to be used via key name.
+ */
+export const commands = {
+  example
+};
+```
+
+
+### Example Command:
+
+```javascript
 import { Application } from '../../../system/app';
 import { Exception } from '../../../system/exception';
 import { assert } from '../../../system/util/assert';
@@ -27,3 +58,5 @@ export function example (args : any, instance : Application) {
     .addData('test', true)
     .addData('args', args);
 }
+
+```
