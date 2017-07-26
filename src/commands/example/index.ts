@@ -15,6 +15,7 @@ export function example (args : any, instance : Application) {
   // halts execution and returns the current response.
   if (0 < 1) instance.complete();
 
+  // adds data to the data section of the response
   instance.response
     .addData('test', true)
     .addData('args', args);
