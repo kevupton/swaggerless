@@ -1,4 +1,4 @@
-import {example} from "./commands/example";
+import { example } from './commands/example';
 
 export const commands = {
   example

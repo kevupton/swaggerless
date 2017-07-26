@@ -15,6 +15,7 @@
     "mocha": "^3.4.2",
     "serverless-webpack": "^1.0.0-rc.4",
     "ts-loader": "^2.2.1",
+    "tslint": "^5.5.0",
     "typescript": "^2.4.1",
     "webpack": "^3.0.0"
   },
