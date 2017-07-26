@@ -60,3 +60,23 @@ export function example (args : any, instance : Application) {
 }
 
 ```
+#### Request:
+```json
+{
+    "command": "example",
+    "args": {
+    	"dollarydoos": 400
+    }
+}
+```
+
+#### Response:
+
+```json
+{
+    "statusCode": 200,
+    "data": {
+        "exist": "yes i do"
+    }
+}
+```
