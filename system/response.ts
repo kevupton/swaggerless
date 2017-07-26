@@ -51,6 +51,10 @@ export class Response {
     this.headers = Object.assign({}, this.headers, headers);
   }
 
+  clearHeaders () {
+    delete this.headers;
+  }
+
   /**
    * Add data to the response
    *
@@ -59,6 +63,7 @@ export class Response {
    */
   addData (key : string, value : any) {
     this._data[key] = value;
+    return this;
   }
 
   /**
@@ -68,6 +73,7 @@ export class Response {
    */
   removeData (key : string) {
     delete this._data[key];
+    return this;
   }
 
   /**
@@ -77,19 +83,23 @@ export class Response {
    */
   setErrorMessage (message : string) {
     this._error = message;
+    return this;
   }
 
   setError (message : string, code = 400) {
     this.setErrorMessage(message);
     this.statusCode = code;
+    return this;
   }
 
   clearErrors () {
     this.statusCode = 200;
     delete this._error;
+    return this;
   }
 
   clearData () {
     this._data = {};
+    return this;
   }
 }
