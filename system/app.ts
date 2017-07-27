@@ -25,10 +25,14 @@ export class Application {
     this._context = context;
     this._callback = callback;
 
+    this.handle();
+  }
+
+  private async handle () {
     let error = null;
 
     try {
-      this._execute();
+      await this._execute();
     }
     catch (e) {
       error = this._handler.handle(e);
@@ -77,6 +81,6 @@ export class Application {
     assert(isFunction(fn), 'invalid command provided');
 
     // execute the given command
-    fn(args, this, method);
+    return fn(args, this, method);
   }
 }
