@@ -5,5 +5,10 @@ import { example } from './commands/example';
     Once added they will be able to be used via key name.
  */
 export const commands = {
-  example
+  POST: {
+    example
+  },
+  PUT: {},
+  DELETE: {},
+  GET: {}
 };

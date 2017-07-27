@@ -1,18 +1,11 @@
 import { APIGatewayEvent, Context, Callback } from 'aws-lambda';
 import { commands } from '../src/commands';
 import { ExceptionHandler } from './exception-handler';
-import { isString, isObject, isFunction, isUndefined } from 'lodash';
+import { isFunction } from 'lodash';
 import { Response } from './response';
 import { assert } from './util/assert';
 import { complete } from './util/complete';
 import { die } from './util/die';
-
-interface ICommandBody {
-  command : string;
-  args : {
-    [key : string] : any;
-  };
-}
 
 // the commands of the application
 export const APP_COMMANDS = Object.keys(commands);
@@ -73,15 +66,17 @@ export class Application {
   }
 
   private _execute () {
-    const {command, args} = (JSON.parse(this.event.body) || {}) as ICommandBody;
+    const { command } = this.event.pathParameters;
+    const method      = this.event.httpMethod.toUpperCase();
+    const args        = Object.assign({}, this.event.queryStringParameters, JSON.parse(this.event.body));
+    const fn          = commands[method][command];
 
+    this._args    = args;
     this._command = command;
-    this._args = args;
 
-    assert(isString(command), 'command is required');
-    assert(isObject(args) || isUndefined(args), 'args is supposed to be an object');
-    assert(isFunction(commands[command]), 'invalid command provided');
+    assert(isFunction(fn), 'invalid command provided');
 
-    commands[command](args, this);
+    // execute the given command
+    fn(args, this, method);
   }
 }

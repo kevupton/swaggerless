@@ -67,10 +67,42 @@ functions:
     environment: ${file(env.yml):${self:custom.stage}}
 
     events:
-       - http:
-           path: /
-           method: post
-           cors: true
+      - http:
+          path: /{command}
+          method: post
+          cors: true
+          request:
+            parameters:
+              paths:
+                command: true
+
+      - http:
+          path: /{command}
+          method: put
+          cors: true
+          request:
+            parameters:
+              paths:
+                command: true
+
+      - http:
+          path: /{command}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                command: true
+
+      - http:
+          path: /{command}
+          method: delete
+          cors: true
+          request:
+            parameters:
+              paths:
+                command: true
+
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
