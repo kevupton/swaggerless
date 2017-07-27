@@ -69,10 +69,19 @@ export class Application {
     die(errorMessage, code);
   }
 
+  get jsonBody () {
+    try {
+      return JSON.parse(this.event.body);
+    }
+    catch (e) {
+      return {};
+    }
+  }
+
   private _execute () {
     const { command } = this.event.pathParameters;
     const method      = this.event.httpMethod.toUpperCase();
-    const args        = Object.assign({}, this.event.queryStringParameters, JSON.parse(this.event.body));
+    const args        = Object.assign({}, this.event.queryStringParameters, this.jsonBody);
     const fn          = commands[method][command];
 
     this._args    = args;
