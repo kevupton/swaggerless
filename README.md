@@ -21,7 +21,12 @@ import { example } from './commands/example';
     Once added they will be able to be used via key name.
  */
 export const commands = {
-  example
+  POST: {
+    example
+  },
+  PUT: {},
+  DELETE: {},
+  GET: {}
 };
 ```
 
@@ -61,12 +66,12 @@ export function example (args : any, instance : Application) {
 
 ```
 #### Request:
+*endpoint:* `/example`
+
+*Body:*
 ```json
 {
-    "command": "example",
-    "args": {
-    	"dollarydoos": 400
-    }
+    "dollarydoos": 400
 }
 ```
 
