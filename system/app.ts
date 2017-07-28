@@ -6,6 +6,8 @@ import { Response } from './response';
 import { assert } from './util/assert';
 import { complete } from './util/complete';
 import { die } from './util/die';
+import { isString } from 'util';
+import { Exception } from './exception';
 
 // the commands of the application
 export const APP_COMMANDS = Object.keys(commands);
@@ -32,13 +34,26 @@ export class Application {
     let error = null;
 
     try {
-      await this._execute();
+      // if any exceptions are thown inside the promise then they are not picked up so we must catch them.
+      await this._execute().catch(e => {
+        handleError(e);
+        resolve();
+      });
     }
     catch (e) {
-      error = this._handler.handle(e);
+      handleError(e);
     }
 
-    this._callback(error, this.response.__OUTPUT__);
+    resolve();
+
+    function handleError (e) {
+      if (isString(e)) e = new Exception(e);
+      error = this._handler.handle(new Exception(e));
+    }
+
+    function resolve () {
+      this._callback(error, this.response.__OUTPUT__);
+    }
   }
 
   get event () {
