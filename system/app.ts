@@ -34,11 +34,13 @@ export class Application {
     let error = null;
 
     try {
+
       // if any exceptions are thown inside the promise then they are not picked up so we must catch them.
       await this._execute().catch(e => {
         handleError(e);
         resolve();
       });
+
     }
     catch (e) {
       handleError(e);
