@@ -31,16 +31,12 @@ export class Application {
   }
 
   private async handle () {
+    const self = this;
     let error = null;
 
     try {
-
       // if any exceptions are thown inside the promise then they are not picked up so we must catch them.
-      await this._execute().catch(e => {
-        handleError(e);
-        resolve();
-      });
-
+      await catchPromise(this._execute());
     }
     catch (e) {
       handleError(e);
@@ -50,11 +46,31 @@ export class Application {
 
     function handleError (e) {
       if (isString(e)) e = new Exception(e);
-      error = this._handler.handle(new Exception(e));
+      error = self._handler.handle(e);
     }
 
     function resolve () {
-      this._callback(error, this.response.__OUTPUT__);
+
+      if (process.env.DEBUG === 'true' && error) {
+        self.response.statusCode = 500;
+        self.response.setError(JSON.stringify(error));
+        error = null;
+      }
+      else {
+        error = new Error(JSON.stringify(error));
+      }
+
+      self._callback(error, self.response.__OUTPUT__);
+    }
+
+    function catchPromise (promise) {
+      if (promise instanceof Promise) {
+        return promise.catch(e => {
+          handleError(e);
+          resolve();
+        });
+      }
+      return promise;
     }
   }
 
