@@ -51,13 +51,17 @@ export class Application {
 
     function resolve () {
 
-      if (process.env.DEBUG === 'true' && error) {
-        self.response.statusCode = 500;
-        self.response.setError(JSON.stringify(error));
-        error = null;
-      }
-      else {
-        error = new Error(JSON.stringify(error));
+      if (error) {
+
+        if (process.env.DEBUG === 'true') {
+          self.response.statusCode = 500;
+          self.response.addData('error', error);
+          error = null;
+        }
+        else {
+          error = new Error(JSON.stringify(error));
+        }
+
       }
 
       self._callback(error, self.response.__OUTPUT__);
