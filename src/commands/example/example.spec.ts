@@ -4,7 +4,7 @@ import { example } from './index';
 const expect = chai.expect;
 
 describe('example command', () => {
-  it('should run example no problem', async function () {
+  it('should run example no problem', async () => {
 
     await testPostCommand('example', (body, res, err) => {
 
