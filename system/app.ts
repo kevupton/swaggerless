@@ -21,13 +21,18 @@ export class Application {
   private _handler = new ExceptionHandler(this);
   private _command : string;
   private _args : any;
+  private _promise : Promise<void>;
 
   constructor (event : APIGatewayEvent, context : Context, callback : Callback) {
     this._event = event;
     this._context = context;
     this._callback = callback;
 
-    this.handle();
+    this._promise = this.handle();
+  }
+
+  get promise () {
+    return this._promise;
   }
 
   private async handle () {

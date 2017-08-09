@@ -11,7 +11,13 @@ export interface IResponseBody {
   errorMessage? : string;
 }
 
-export class Response {
+export interface IResponse {
+  statusCode : number;
+  headers : IHeadersObject;
+  body : string;
+}
+
+export class Response implements IResponse {
   statusCode = 200;
   headers : IHeadersObject;
 

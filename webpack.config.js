@@ -5,12 +5,20 @@ module.exports = {
   target: 'node',
   module: {
     loaders: [
-      { test: /\.ts(x?)$/, loader: 'ts-loader' },
+      {
+        test: /\.tsx?$/,
+        loader: 'babel-loader',
+        query: {
+          plugins: ['transform-runtime'],
+          presets: ['es2015']
+        }
+      },
+      { test: /\.tsx?$/, loader: 'ts-loader' },
       { test: /\.json$/, loader: 'json-loader' },
     ]
   },
   resolve: {
-    extensions: ['.ts', '.js', '.tsx', '.jsx', '']
+    extensions: ['.ts', '.js', '.tsx', '.jsx']
   },
   output: {
     libraryTarget: 'commonjs',
