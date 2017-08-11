@@ -9,8 +9,7 @@ import { die } from './util/die';
 import { isString } from 'util';
 import { Exception } from './exception';
 
-// the commands of the application
-export const APP_COMMANDS = Object.keys(commands);
+export type AppFN = (args : any, app : Application, method? : string) => Promise<any>|void;
 
 export class Application {
 
@@ -28,7 +27,7 @@ export class Application {
     this._context = context;
     this._callback = callback;
 
-    this._promise = this.handle();
+    this._promise = Promise.resolve().then(() => this.handle());
   }
 
   get promise () {
@@ -64,7 +63,16 @@ export class Application {
           error = null;
         }
         else {
-          error = new Error(JSON.stringify(error));
+          const tempError = error;
+          error = new Error(`${tempError}`);
+
+          // for some reason aws lambda throws an exception if the values arent exact
+          if (tempError instanceof Error) {
+            error.message = tempError.message;
+            error.name = tempError.name;
+            error.stack = tempError.stack;
+          }
+
         }
 
       }

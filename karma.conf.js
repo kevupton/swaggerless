@@ -7,7 +7,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai', 'sinon'],
 
     files: [
-      'src/**/*.ts',
+      'src/**/*.spec.ts'
     ],
 
     preprocessors: {
@@ -18,10 +18,17 @@ module.exports = function(config) {
       module: webpackConfig.module,
       resolve: webpackConfig.resolve,
       devtool: 'inline-source-map',
+      plugins: [
+        new webpack.DefinePlugin({
+          'process.env': require('./test.env.json')
+        })
+      ]
     },
 
     // Webpack please don't spam the console when running in karma!
     webpackServer: { noInfo: true },
+    processKillTimeout: 5000,
+    browserDisconnectTimeout: 5000,
 
     reporters: ['progress'],
     colors: true,
@@ -29,6 +36,6 @@ module.exports = function(config) {
     logLevel: config.LOG_INFO,
     browsers: ['PhantomJS'],
     singleRun: false,
-    concurrency: Infinity
+    concurrency: 'Infinity'
   });
 };
